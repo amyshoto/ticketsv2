@@ -1,0 +1,153 @@
+.container {
+    height: 35vw;
+    display: grid;
+    grid-template-areas: "section1 section2"
+                         "boton boton";
+    grid-template-columns: 1fr 1fr;
+}
+
+.item-1 {
+    grid-area: section1;
+    /* border: 2px solid green; */
+    display: flex;
+}
+
+.item-2 {
+    grid-area: section2;
+    /* border: 2px solid blue; */
+    display: flex;
+}
+
+.item-3 {
+    grid-area: boton;
+
+    /* border: 2px solid yellow; */
+}
+
+.info {
+/*     box-sizing: border-box;
+    border: 2px solid red; */
+    margin-top: 3%;
+    margin-left: 15%;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 400;
+    font-size: 1.5vw;
+    width: 100%; 
+    height: auto;
+}
+
+.info2 {
+/*     border: 2px solid purple; */
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 400;
+    font-size: 1.5vw;
+    width: 100%;
+    height: auto;
+    margin-top: 3%;
+}
+
+.info p, .info2 p {
+    margin-top: 0;
+    margin-bottom: 2%;
+}
+
+.boton {
+    /* border: 2px solid orange; */
+    margin-bottom: 2%;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    width: 70%;
+
+}
+
+.btn {
+    background-color: #D9D9D9; 
+    color: black; 
+    border: solid #D9D9D9;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 400;
+    font-size: 1.5vw;
+    height: auto;
+}
+
+/* .boton2 {
+    border: 2px solid orange;
+    margin-bottom: 2%;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    width: 70%;
+    height: 10%;
+
+} */
+
+/* .btn2 {
+    background-color: #D9D9D9; 
+    color: black; 
+    border: solid #D9D9D9;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 400;
+    font-size: 1.5vw;
+} */
+
+.boton3 {
+    display: grid;
+    place-items: center;
+    position: relative;
+    height: 10vh;
+}
+
+.btn3 {
+    cursor: pointer;
+    background-color: #F56161;
+    border-radius: 33px;
+    color: black;
+    border: solid #F56161;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 400;
+    font-size: 2vw;
+    width: 15vw;
+    height: auto;
+}
+
+/* .info-folio label {
+    display: flex;
+    align-items: center;
+    margin-bottom: 2%; 
+}
+
+#folio {
+    background-color: #9C9C9C;
+    border: solid #9C9C9C;
+    width: 10vw;
+    margin-left: 1vw;
+} */
+
+/* #folio {
+    background-color: #9C9C9C;
+    border: solid #9C9C9C;
+    width: 10vw;
+    display: inline-block; /* Añade esta línea para alinear el botón horizontalmente 
+} */
+
+/* #gerencia {
+    width: 61%;
+} */
+
+/* #problema {
+    margin-bottom: 54%;
+} */
+
+#fecha {
+    width: 30%;
+    display: flex;
+}
+
+#fecha input[type="date"]::-webkit-calendar-picker-indicator {
+    display: none;
+}
+
+#fecha input[type="date"] {
+    text-align: center;
+}

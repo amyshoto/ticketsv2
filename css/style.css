@@ -1,0 +1,168 @@
+.boton1 {
+    display: flex;
+    /* border: 2px solid purple; */
+    flex-direction: row-reverse;
+    margin-top: 2%;
+    margin-bottom: 2%;
+    margin-right: 2%;
+}
+
+.btn1 {
+    cursor: pointer;
+    background-color: white; 
+    border-radius: 33px;
+    color: black; 
+    border: 3px solid #D9D9D9;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 400;
+    font-size: 1.5vw;
+    width: 15%;
+    height: auto;
+    transition-duration: 0.4s;
+}
+
+.btn1:hover {
+    background-color: #D9D9D9;
+    color: black;
+}
+
+.login-container {
+    margin-left: auto; /* Agregado */
+    position: absolute; /* Agregado */
+    top: 0;
+    right: 0;
+    margin: 2%;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 400;
+    font-size: 1.5vw;
+    color: #e0a101;
+}
+
+.boton1 p {
+    margin-right: auto; /* Agregado */
+    position: absolute; /* Agregado */
+    top: 0;
+    right: 0;
+    margin: 2%;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 400;
+    font-size: 1.5vw;
+    flex-direction: row;
+}
+
+.login, .login a {
+    margin: 0; /* Elimina el margen predeterminado */
+    color: inherit; /* Hereda el color del texto del elemento padre */
+}
+
+.linea {
+    width: 94%; /* Ajusta el ancho de la línea con márgenes */
+    height: 2px; /* Grosor de la línea */
+    background-color: black;
+    margin: 0% 3%;
+}
+
+.linea2 {
+    /* width: calc(100% - 100px); Ajusta el ancho de la línea con márgenes */
+    width: 100%; /* Ajusta el ancho de la línea con márgenes */
+    height: 2px; /* Grosor de la línea */
+    background-color: #A7A7A0; /* Color de la línea */
+    /* margin: auto; */
+    margin-top: 0%;
+    margin-bottom: 0%;
+}
+
+.fondo {
+    background: rgba(156, 156, 156, 0.50);
+    font-weight: 700;
+}
+
+.titulo, .lista {
+    display: grid;
+    grid-template-areas: "asunto folio encargado estado";
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    /* border: 2px solid blueviolet; */
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 400;
+    font-size: 1vw;
+    margin-left: 3%;
+    margin-right: 3%;
+}
+
+.item-1 {
+/*     background-color: grey; */
+    grid-area: asunto;
+    /* border: 2px solid green; */
+    width: 170%;
+    /* margin-left: 5%; */
+    /* display: flex; */
+}
+
+.item-1 p a {
+    text-decoration: none; /* Elimina el subrayado */
+    color: inherit; /* Hereda el color del texto del elemento padre */
+}
+
+.item-2 {
+    grid-area: folio;
+    /* border: 2px solid blue; */
+    margin-left: 70%;
+    width: 50%;
+    text-align: center;
+    /* display: flex; */
+}
+
+.item-3 {
+    grid-area: encargado;
+    margin-left: 20%;
+    /* border: 2px solid yellow; */
+    text-align: center;
+}
+
+.item-4 {
+    grid-area: estado;
+    /* margin-left: 30%; */
+    text-align: center;
+    /* border: 2px solid red; */
+}
+
+.boton2 {
+    display: flex;
+    /* border: 2px solid purple; */
+    flex-direction: row-reverse;
+    margin-top: 2%;
+    margin-bottom: 2%;
+    margin-right: 2%;
+}
+
+.btn2 {
+    cursor: pointer;
+    background-color: white; 
+    border-radius: 33px;
+    color: black; 
+    border: 3px solid #D9D9D9;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 400;
+    font-size: 1.5vw;
+    width: 20%;
+    height: auto;
+    transition-duration: 0.4s;
+    margin-right: 2%;
+}
+
+.btn2:hover {
+    background-color: #D9D9D9;
+    color: black;
+}
+
+.boton2 p {
+    margin-right: auto; /* Agregado */
+    position: absolute; /* Agregado */
+    top: 0;
+    right: 0;
+    margin: 2%;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 400;
+    font-size: 1.5vw;
+    flex-direction: row;
+}

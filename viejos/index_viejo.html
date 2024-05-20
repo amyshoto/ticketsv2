@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistema de tickets</title>
+    <link rel="stylesheet" href="css/style_banner.css">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="banner">
+        <h1>Tickets3</h1>
+    </div>
+    <div class="boton1">
+        <button class="btn1" onclick="location.href='reporte.html'">Añadir ticket</button>
+    </div>
+    <div class="linea"></div> 
+    <div class="titulo">
+        <div class="item item-1">
+            <p>Asunto</p>
+        </div>
+        <div class="item item-2">
+            <p>Folio</p>
+        </div>
+        <div class="item item-3">
+            <p>Encargado</p>
+        </div>
+        <div class="item item-4">
+            <p>Estado</p>
+        </div>
+    </div>   
+    <div class="linea"></div>
+    <div class="lista">
+        <div class="item item-5">
+            <?php  
+            / Aquí irá tu lógica de PHP para obtener los datos de los tickets y mostrarlos en la lista.
+            // Puedes obtener los datos de una base de datos o de otro lugar donde estén almacenados los tickets.
+            // Por ahora, supongamos que tienes un array de tickets.
+            $tickets = array(
+                array("asunto" => "Ticket de prueba", "folio" => "#001", "encargado" => "Juan", "estado" => "Abierto"),
+                array("asunto" => "Ticket de ejemplo", "folio" => "#002", "encargado" => "María", "estado" => "Cerrado")
+            );
+    
+            // Ordena los tickets por el número de folio de manera ascendente.
+            usort($tickets, function ($a, $b) {
+                return strnatcmp($a['folio'], $b['folio']);
+            });
+    
+            // Itera sobre los tickets y muéstralos en la lista.
+            foreach ($tickets as $ticket) {
+                echo '<div class="lista-item">';
+                echo '<p>' . $ticket['asunto'] . '</p>';
+                echo '<p>' . $ticket['folio'] . '</p>';
+                echo '<p>' . $ticket['encargado'] . '</p>';
+                echo '<p>' . $ticket['estado'] . '</p>';
+                echo '<div class="linea3"></div>';
+                echo '</div>';
+            }    
+            ?>
+        </div>
+    </div>
+    <!-- 
+    <div class="lista">
+        <p>Asunto</p>
+        <p>Folio</p>
+        <p>Encargado</p>
+        <p>Estado</p>
+    </div>
+    <div class="linea2">
+    </div>
+    <div class="lista-item">
+        <p>123456789123456789123456789</p>
+        <p>#001</p>
+        <p>jace jacelanddd</p>
+        <p>nuevo</p>
+        <div class="linea3"></div>
+    </div>
+    <div class="lista-item">
+        <p>hola</p>
+        <p>#002</p>
+        <p>juan gabriel</p>
+        <p>terminado</p>
+        <div class="linea3"></div>
+    </div> -->
+
+    <!-- <div>
+        <ul>
+            <li>
+                <span class="titulo">Título 1</span> <br> Elemento 1
+            </li>
+            <li>
+                <span class="titulo">Título 2</span> <br> Elemento 2
+            </li>
+            <li>
+                <span class="titulo">Título 3</span> <br> Elemento 3
+            </li>
+            <li>
+                <span class="titulo">Título 4</span> <br> Elemento 4
+            </li>
+        </ul>
+    </div> -->
+
+</body>
+</html>

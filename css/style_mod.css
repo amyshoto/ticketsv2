@@ -1,0 +1,210 @@
+body {
+    margin: 0;
+    padding: 0;
+}
+
+.banner {
+    height: 20vh; 
+    background-color: #688DB9; 
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.banner h1{
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 600;
+    font-size: 4vw;
+    color: black;
+}
+
+.container {
+    height: 35vw;
+    display: grid;
+    grid-template-areas: "section1 section2"
+                         "boton boton";
+    grid-template-columns: 1fr 1fr;
+}
+
+.item-1, .item-2 {
+    grid-area: section1;
+    /* border: 2px solid green; */
+    display: flex;
+}
+
+.item-2 {
+    grid-area: section2;
+    /* border: 2px solid blue; */
+    display: flex;
+}
+
+.item-3 {
+    grid-area: boton;
+
+    /* border: 2px solid yellow; */
+}
+
+.info {
+    /* box-sizing: border-box; */
+    /* border: 2px solid red; */
+    margin-top: 3%;
+    margin-left: 15%;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 400;
+    font-size: 1.5vw;
+    width: 100%; 
+    height: auto;
+}
+
+.info2 {
+    /* border: 2px solid purple; */
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 400;
+    font-size: 1.5vw;
+    width: 100%;
+    height: auto;
+    margin-top: 3%;
+}
+
+.info p, .info2 p {
+    margin-top: 0;
+    margin-bottom: 2%;
+}
+
+.boton {
+    /* border: 2px solid orange; */
+    margin-bottom: 2%;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    width: 70%;
+}
+
+.btn {
+    background-color: #D9D9D9; 
+    color: black; 
+    border: solid #D9D9D9;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 400;
+    font-size: 1.5vw;
+    height: auto;
+}
+
+.boton3 {
+    display: flex;
+    justify-content: center; /* Centra los elementos horizontalmente */
+    align-items: center; /* Centra los elementos verticalmente si es necesario */
+    height: 10vh;
+    margin-top: 20px; /* Ajusta el margen superior según sea necesario */
+}
+
+.boton3 a {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    text-decoration: none;
+}
+
+.btn3 {
+    cursor: pointer;
+    background-color: #F56161;
+    border-radius: 33px;
+    color: black;
+    border: solid #F56161;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 400;
+    font-size: 2vw;
+    width: 20vw; /* Ajusta el ancho de los botones según sea necesario */
+    height: auto;
+    margin: 0 40px; /* Agrega un margen horizontal para separar los botones */
+}
+
+.info-folio label {
+    display: flex;
+    align-items: center;
+    margin-bottom: 2%;
+}
+
+.info-estado label {
+    display: flex;
+    align-items: center;
+    margin-bottom: 1%; 
+    width: 82%;
+}
+
+.centro {
+    justify-content: center !important; 
+    align-items: center !important; 
+    text-align: center !important;
+} 
+
+#folio {
+    background-color: #9C9C9C;
+    border: solid #9C9C9C;
+    width: 10vw;
+    margin-left: 1vw;
+    display: flex;
+    justify-content: center; /* Añadido */
+    align-items: center; /* Añadido */
+}
+
+#estado {
+    margin-left: 1vw;
+}
+
+#fecha {
+    width: 30%;
+    display: flex;
+}
+
+#fechaSolucion {
+    width: 30%;
+    display: flex;
+}
+
+#fechaSolucion input[type="date"]::-webkit-calendar-picker-indicator {
+    display: none;
+}
+
+#fechaSolucion input[type="date"] {
+    text-align: center;
+}
+
+/* #nuevo, .nuevo-color {
+    background-color: #36AE7C;
+    border-color: #36AE7C;
+}
+
+#proceso, .proceso-color {
+    background-color: #F9D923;
+    border-color: #F9D923;
+}
+
+#terminado, .terminado-color {
+    background-color: #EB5353;
+    border-color: #EB5353;
+} */
+
+#cancelar {
+    background-color: #F5CB61;
+    border-color: #F5CB61;
+    text-align: center;
+}
+
+.img-container {
+    margin-right: auto; /* Agregado */
+    position: absolute; /* Agregado */
+    top: 0;
+    left: 0;
+    margin: 2%;
+}
+
+.banner img {
+    justify-content: left;
+    align-items: left;
+    margin-right: 20%;
+    width: 23vw;
+    height: auto;
+}
