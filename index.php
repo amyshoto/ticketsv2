@@ -60,7 +60,7 @@
         <div class="img-container">
             <a href="index.php"><img src="img/AMIM.png" alt="Logotipo de AMIM"></a>
         </div>
-        <h1>Ayuda UTI</h1>
+        <h1>Ayuda UTIC</h1>
     </div>
 
     <div class="container">    
