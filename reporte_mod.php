@@ -1,4 +1,5 @@
 <?php
+    include 'php/conexionbd.php';
     // Iniciar la sesión
     session_start();
 
@@ -8,8 +9,6 @@
         header("Location: index.php");
         exit();
     }
-    
-    include 'C:\xampp\htdocs\tickets\php\conexionbd.php';
 ?>
 
 <!DOCTYPE html>

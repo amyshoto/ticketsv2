@@ -1,5 +1,5 @@
 <?php
-    include 'C:\xampp\htdocs\tickets\php\conexionbd.php';
+    include 'php/conexionbd.php';
 
     // Iniciar la sesión
     session_start();
@@ -22,10 +22,7 @@
             $_SESSION['es_admin'] = $row['es_admin'];
             $_SESSION['es_superadmin'] = $row['es_superadmin'];
 
-            //Añadir mensajes de depuración
-            // echo "Correo: " . $row['correo'] . "<br>";
-            // echo "Es admin: " . $_SESSION['es_admin'] . "<br>";
-            if ($_SESSION['es_admin'] == 't') {
+            if ($_SESSION['es_admin'] === 't') {
                 header("location: index_admin.php");
                 exit();
             } elseif ($_SESSION['es_superadmin'] === 't') {

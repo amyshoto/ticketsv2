@@ -1,5 +1,5 @@
 <?php
-    include 'C:\xampp\htdocs\tickets\php\conexionbd.php';
+    include 'php/conexionbd.php';
     session_start();
 
     // Verificar si el usuario ha iniciado sesión
@@ -15,8 +15,7 @@
     $row = pg_fetch_assoc($result);
     $idUsuario = $row['id'];
     $nombreUsuario = $row['nombre'];
-    //echo $idUsuario;
-
+    
     // Realizar consulta SQL para obtener los tickets del usuario actual
     $query = "SELECT * FROM ticket WHERE idusuario = '$idUsuario' ORDER BY folio ASC";
     $result = pg_query($conexion, $query);

@@ -1,5 +1,5 @@
 <?php
-    include 'C:\xampp\htdocs\tickets\php\conexionbd.php';
+    include 'conexionbd.php';
 
     // Iniciar la sesión
     session_start();
