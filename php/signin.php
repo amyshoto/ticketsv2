@@ -35,10 +35,9 @@
         </form>
 
         <?php
+            include 'conexionbd.php';
             // Manejo del formulario y registro en la base de datos
             if ($_SERVER["REQUEST_METHOD"] == "POST") {
-                include 'C:\xampp\htdocs\tickets\php\conexionbd.php';
-
                 // Recuperar datos del formulario
                 $correo = $_POST['correo'];
                 $nombre = $_POST['nombre'];

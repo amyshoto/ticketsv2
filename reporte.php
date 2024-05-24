@@ -1,5 +1,5 @@
 <?php
-    include 'C:\xampp\htdocs\tickets\php\conexionbd.php';
+    include 'php/conexionbd.php';
     session_start();
 
     // Verificar si el usuario ha iniciado sesión

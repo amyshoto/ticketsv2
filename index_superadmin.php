@@ -1,12 +1,23 @@
 <?php 
-    include 'C:\xampp\htdocs\tickets\php\conexionbd.php';
-    // Iniciar la sesión
+    include 'php/conexionbd.php';
     session_start();
 
     // Verificar si el usuario ha iniciado sesión
     if (!isset($_SESSION['correo'])) {
-        // Si no ha iniciado sesión, redirigirlo a la página de inicio de sesión
         header("Location: index.php");
+        exit();
+    }
+
+    $correo = $_SESSION['correo'];
+    $query = "SELECT * FROM usuario WHERE correo = '$correo'";
+    $result = pg_query($conexion, $query);
+    $row = pg_fetch_assoc($result);
+    $rolSuperAdmin = $row['es_superadmin'];
+
+    // Verificar si el usuario tiene el rol adecuado para esta página
+    if ($rolSuperAdmin != 't' ) {
+        // Si el usuario no tiene el rol de superadministrador, redirigirlo
+        header("location: index.php");
         exit();
     }
 ?>
