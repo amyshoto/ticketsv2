@@ -1,0 +1,50 @@
+CREATE TABLE Ticket ( 
+	idTicket serial, 
+	Folio serial,
+	Asunto varchar (50),
+	Nombre varchar (50),
+	Encargado varchar (50) default '-',
+	Problema varchar(80),
+	fechaEntrada date,
+	Estado varchar (50) default 'Nuevo',
+	Gerencia varchar (50),
+	Ubicacion varchar (50),
+	solucionCancelacion varchar (80) default '-',
+	fechaSolucion date default null,
+	idusuario int
+);
+
+create table encargado (
+	nombreEncargado varchar (50) unique
+);
+
+CREATE TABLE usuario (
+    id SERIAL PRIMARY KEY,
+    correo VARCHAR(50) NOT NULL UNIQUE,
+	nombre varchar(50) NOT NULL,
+    contrasena VARCHAR(50) NOT NULL,
+	es_admin BOOLEAN default false,
+	es_superadmin BOOLEAN default false
+);
+
+INSERT INTO encargado (nombreEncargado) VALUES ('Luis Robles');
+INSERT INTO encargado (nombreEncargado) VALUES ('Amy Soto');
+INSERT INTO encargado (nombreEncargado) VALUES ('-');
+
+ALTER TABLE ticket 
+    ADD CONSTRAINT fk_idencargado FOREIGN KEY (Encargado) REFERENCES encargado (nombreEncargado);
+
+ALTER TABLE ticket 
+    ADD CONSTRAINT fk_idusuario FOREIGN KEY (idusuario) REFERENCES usuario (id);
+
+ALTER TABLE encargado
+ADD COLUMN eliminado boolean DEFAULT false;
+
+select * from usuario;
+
+select * from ticket;
+
+select * from encargado;
+
+UPDATE usuario SET es_admin = TRUE WHERE correo = 'a@a';
+UPDATE usuario SET es_superadmin = TRUE WHERE correo = 'sa@sa';
