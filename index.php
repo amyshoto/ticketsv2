@@ -23,13 +23,13 @@
             $_SESSION['es_superadmin'] = $row['es_superadmin'];
 
             if ($_SESSION['es_admin'] === 't') {
-                header("location: index_admin.php");
+                header("location: php/indexAdmin.php");
                 exit();
             } elseif ($_SESSION['es_superadmin'] === 't') {
-                header("location: index_superadmin.php");
+                header("location: php/indexSuperadmin.php");
                 exit();
             } else {
-                header("location: index_usuario.php");
+                header("location: php/indexUsuario.php");
                 exit();
             }
             exit();
