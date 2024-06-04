@@ -1,0 +1,39 @@
+CREATE TABLE encargado (
+	nombreEncargado varchar (50) unique,
+	eliminado boolean DEFAULT false
+);
+
+CREATE TABLE usuario (
+    	id SERIAL PRIMARY KEY,
+   	correo VARCHAR(50) NOT NULL UNIQUE,
+	nombre varchar(50) NOT NULL,
+    	contrasena VARCHAR(50) NOT NULL,
+	es_admin BOOLEAN default false,
+	es_superadmin BOOLEAN default false
+);
+
+CREATE TABLE Ticket ( 
+	idTicket serial, 
+	Folio serial,
+	Asunto varchar (50),
+	Nombre varchar (50),
+	Encargado varchar (50) default '-',
+	Problema varchar(80),
+	fechaEntrada date,
+	Estado varchar (50) default 'Nuevo',
+	Gerencia varchar (50),
+	Ubicacion varchar (50),
+	solucionCancelacion varchar (80) default '-',
+	fechaSolucion date default null,
+	idusuario int,
+	FOREIGN KEY (Encargado) REFERENCES encargado (nombreEncargado) ON UPDATE CASCADE,
+	FOREIGN KEY (idusuario) REFERENCES usuario (id) ON UPDATE CASCADE
+
+);
+
+INSERT INTO encargado (nombreEncargado) VALUES ('Luis Robles');
+INSERT INTO encargado (nombreEncargado) VALUES ('Amy Soto');
+INSERT INTO encargado (nombreEncargado) VALUES ('-');
+
+UPDATE usuario SET es_admin = TRUE WHERE correo = 'a@a';
+UPDATE usuario SET es_superadmin = TRUE WHERE correo = 'sa@sa';
