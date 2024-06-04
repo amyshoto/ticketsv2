@@ -49,6 +49,18 @@
         <button class="btn2" onclick="location.href='encargado.php'">Editar información</button>
         <button class="btn2" onclick="location.href='reporte.php'">Añadir ticket</button>
     </div>
+    
+    <!-- Formulario de filtro de estado -->
+    <form method="GET" action="">
+        <label for="estado">Filtrar por estado:</label>
+        <select name="estado" id="estado" onchange="this.form.submit()">
+            <option value="Nuevo" <?php if (isset($_GET['estado']) && $_GET['estado'] == 'Nuevo') echo 'selected'; ?>>Nuevo</option>
+            <option value="En proceso" <?php if (isset($_GET['estado']) && $_GET['estado'] == 'En proceso') echo 'selected'; ?>>En proceso</option>
+            <option value="Terminado" <?php if (isset($_GET['estado']) && $_GET['estado'] == 'Terminado') echo 'selected'; ?>>Terminado</option>
+            <option value="Cancelado" <?php if (isset($_GET['estado']) && $_GET['estado'] == 'Cancelado') echo 'selected'; ?>>Cancelado</option>
+        </select>
+    </form>
+
     <div class="linea"></div> 
     <div class="titulo">
         <div class="fondo item item-1">
@@ -66,10 +78,17 @@
     </div>   
     <div class="linea"></div>
 
-
     <?php
-        // Realiza la consulta SQL para obtener los datos de los tickets y ordenarlos por folio ascendente.
-        $query = "SELECT * FROM ticket ORDER BY folio ASC";
+        // Obtener el estado seleccionado del formulario o usar "nuevo" por defecto.
+        $estado = isset($_GET['estado']) ? $_GET['estado'] : 'nuevo';
+
+        // Obtener el número de página actual, por defecto será 1.
+        $page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
+        $limit = 15;
+        $offset = ($page - 1) * $limit;
+
+        // Realizar la consulta SQL para obtener los datos de los tickets filtrados por estado con paginación.
+        $query = "SELECT * FROM ticket WHERE estado = '$estado' ORDER BY folio ASC LIMIT $limit OFFSET $offset";
         $result = pg_query($conexion, $query);
 
         if (!$result) {
@@ -77,16 +96,23 @@
             exit;
         }
 
-        // Almacena los resultados en un array.
+        // Almacenar los resultados en un array.
         $tickets = pg_fetch_all($result);
 
-        // Libera el resultado y cierra la conexión.
+        // Consulta para contar el número total de tickets para paginación.
+        $count_query = "SELECT COUNT(*) AS total FROM ticket WHERE estado = '$estado'";
+        $count_result = pg_query($conexion, $count_query);
+        $total_tickets = pg_fetch_assoc($count_result)['total'];
+        $total_pages = ceil($total_tickets / $limit);
+
+        // Liberar el resultado y cerrar la conexión.
         pg_free_result($result);
+        pg_free_result($count_result);
         pg_close($conexion);
 
         // Si hay tickets, muestra la lista.
         if ($tickets) {
-            // Itera sobre los tickets y muéstralos en la lista.
+            // Iterar sobre los tickets y mostrarlos en la lista.
             foreach ($tickets as $ticket) {
                 ?>
                 <div class="lista">
@@ -121,5 +147,23 @@
             <?php
         }
     ?>
+
+    <!-- Paginación -->
+    <div class="pagination">
+        <?php if ($page > 1): ?>
+            <a href="?estado=<?php echo $estado; ?>&page=<?php echo $page - 1; ?>">&laquo; Anterior</a>
+        <?php endif; ?>
+
+        <?php for ($i = 1; $i <= $total_pages; $i++): ?>
+            <a href="?estado=<?php echo $estado; ?>&page=<?php echo $i; ?>" <?php if ($i == $page) echo 'class="active"'; ?>>
+                <?php echo 'Página: '.$i; ?>
+            </a>
+        <?php endfor; ?>
+
+        <?php if ($page < $total_pages): ?>
+            <a href="?estado=<?php echo $estado; ?>&page=<?php echo $page + 1; ?>">Siguiente &raquo;</a>
+        <?php endif; ?>
+    </div>
+
 </body>
 </html>

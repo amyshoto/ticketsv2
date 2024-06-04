@@ -157,7 +157,7 @@
                             <option value="Nuevo" <?php if ($mostrar['estado'] == 'Nuevo') echo 'selected'; ?>>Nuevo</option>
                             <option value="En proceso" <?php if ($mostrar['estado'] == 'En proceso') echo 'selected'; ?>>En proceso</option>
                             <option value="Terminado" <?php if ($mostrar['estado'] == 'Terminado') echo 'selected'; ?>>Terminado</option>
-                            <option disabled value="Terminado" <?php if ($mostrar['estado'] == 'Cancelado') echo 'selected'; ?>>Cancelado</option>
+                            <option disabled value="Cancelado" <?php if ($mostrar['estado'] == 'Cancelado') echo 'selected'; ?>>Cancelado</option>
                         </select>      
                     </label>                    
                 </div>
