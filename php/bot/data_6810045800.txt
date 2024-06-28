@@ -1,0 +1,1 @@
+{"name":"karla","email":"karla@gmail.com","password":"$2y$10$d6oHk0LzDuqA1Dq1Z5Vw9O3GT0\/I9koMo9yDHsxlyiT4QIJH7d6sO","unit":"\u2696\ufe0fOIC","issue":"\ud83c\udfb2Otro","description":"ola","station":"12 ola","folio":"002"}

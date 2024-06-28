@@ -19,7 +19,7 @@ create table encargado (
 );
 
 CREATE TABLE usuario (
-    id SERIAL PRIMARY KEY,
+    id BIGSERIAL PRIMARY KEY,
     correo VARCHAR(50) NOT NULL UNIQUE,
 	nombre varchar(50) NOT NULL,
     contrasena VARCHAR(50) NOT NULL,

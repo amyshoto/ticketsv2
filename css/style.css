@@ -125,7 +125,12 @@
     text-align: center;
     /* border: 2px solid red; */
 }
-
+.item-5 {
+    grid-area: estado;
+    /* margin-left: 30%; */
+    text-align: center;
+    /* border: 2px solid red; */
+}
 .boton2 {
     display: flex;
     /* border: 2px solid purple; */

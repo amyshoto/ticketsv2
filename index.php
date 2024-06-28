@@ -1,23 +1,25 @@
 <?php
-    include 'php/conexionbd.php';
+include 'php/conexionbd.php';
 
-    // Iniciar la sesión
-    session_start();
+// Iniciar la sesión
+session_start();
 
-    $error_message = "";
+$error_message = "";
 
-    if ($_SERVER["REQUEST_METHOD"] == "POST") {
-        // Obtener el nombre de usuario y la contraseña del formulario
-        $correo = $_POST["correo"];
-        $contrasena = $_POST["contrasena"];
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    // Obtener el nombre de usuario y la contraseña del formulario
+    $correo = $_POST["correo"];
+    $contrasena = $_POST["contrasena"];
 
-        // Consulta SQL para verificar las credenciales en la base de datos
-        $query = "SELECT * FROM usuario WHERE correo = '$correo' AND contrasena = '$contrasena'";
-        $result = pg_query($conexion, $query);
+    // Consulta SQL para verificar las credenciales en la base de datos
+    $query = "SELECT * FROM usuario WHERE correo = '$correo'";
+    $result = pg_query($conexion, $query);
 
-        if ($result && pg_num_rows($result) > 0) {
-            // Si hay coincidencia, iniciar sesión y redirigir a index_admin.php
-            $row = pg_fetch_assoc($result);
+    if ($result && pg_num_rows($result) > 0) {
+        $row = pg_fetch_assoc($result);
+        // Verificar la contraseña
+        if (password_verify($contrasena, $row['contrasena'])) {
+            // Si hay coincidencia, iniciar sesión y redirigir a la página correspondiente
             $_SESSION['correo'] = $row['correo'];
             $_SESSION['es_admin'] = $row['es_admin'];
             $_SESSION['es_superadmin'] = $row['es_superadmin'];
@@ -32,11 +34,13 @@
                 header("location: php/indexUsuario.php");
                 exit();
             }
-            exit();
         } else {
             $error_message = "Usuario o contraseña incorrectos";
         }
+    } else {
+        $error_message = "Usuario o contraseña incorrectos";
     }
+}
 ?>
 
 <!DOCTYPE html>

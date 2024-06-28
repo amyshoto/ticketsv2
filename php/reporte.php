@@ -33,6 +33,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600&display=swap" rel="stylesheet">
 </head>
 <body>
+
     <div class="banner">
         <div class="img-container">
             <img src="../img/AMIM.png" alt="Logotipo de AMIM">
