@@ -58,7 +58,7 @@
 .linea {
     width: 94%; /* Ajusta el ancho de la línea con márgenes */
     height: 2px; /* Grosor de la línea */
-    background-color: black;
+    background-color: #A7A7A0;
     margin: 0% 3%;
 }
 
@@ -66,7 +66,7 @@
     /* width: calc(100% - 100px); Ajusta el ancho de la línea con márgenes */
     width: 100%; /* Ajusta el ancho de la línea con márgenes */
     height: 2px; /* Grosor de la línea */
-    background-color: #A7A7A0; /* Color de la línea */
+    background-color: #bdbdbb; /* Color de la línea */
     /* margin: auto; */
     margin-top: 0%;
     margin-bottom: 0%;
@@ -79,8 +79,8 @@
 
 .titulo, .lista {
     display: grid;
-    grid-template-areas: "asunto folio encargado estado";
-    grid-template-columns: 1fr 1fr 1fr 1fr;
+    grid-template-areas: "asunto folio encargado estado gerencia ubicacion nombre";
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
     /* border: 2px solid blueviolet; */
     font-family: 'Montserrat', sans-serif;
     font-weight: 400;
@@ -90,10 +90,11 @@
 }
 
 .item-1 {
-/*     background-color: grey; */
+    /*background-color: grey;*/
     grid-area: asunto;
     /* border: 2px solid green; */
     width: 170%;
+    text-align: center;
     /* margin-left: 5%; */
     /* display: flex; */
 }
@@ -121,6 +122,20 @@
 
 .item-4 {
     grid-area: estado;
+    /* margin-left: 30%; */
+    text-align: center;
+    /* border: 2px solid red; */
+}
+
+.item-5 {
+    grid-area: gerencia;
+    /* margin-left: 30%; */
+    text-align: center;
+    /* border: 2px solid red; */
+}
+
+.item-6 {
+    grid-area: ubicacion;
     /* margin-left: 30%; */
     text-align: center;
     /* border: 2px solid red; */
@@ -165,4 +180,47 @@
     font-weight: 400;
     font-size: 1.5vw;
     flex-direction: row;
+}
+
+/* Estilos para el formulario de filtrado */
+form {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 20px;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 400;
+    font-size: 1.2vw;
+}
+
+form label {
+    margin-right: 10px;
+    color: #333;
+}
+
+form select {
+    padding: 5px 10px;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 400;
+    font-size: 1vw;
+    border: 1px solid #D9D9D9;
+    border-radius: 5px;
+    margin-right: 10px;
+}
+
+form button {
+    cursor: pointer;
+    background-color: #e0a101;
+    border: none;
+    border-radius: 5px;
+    color: white;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 500;
+    font-size: 1vw;
+    padding: 5px 15px;
+    transition: background-color 0.4s;
+}
+
+form button:hover {
+    background-color: #cc8f00;
 }

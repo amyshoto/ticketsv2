@@ -11,6 +11,7 @@
     <title>Reporte de ticket</title>
     <link rel="stylesheet" href="../css/style_cons.css">
     <link rel="stylesheet" href="../css/style_banner.css">
+    <link rel="stylesheet" href="../css//style_reportes.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600&display=swap" rel="stylesheet">
@@ -95,8 +96,13 @@
             } else {
                 echo "No existe";
             }
-        ?>       
+        ?>
+        <!-- Botón de regresar -->
+        <div class="item item-3 boton3">
+            <form method="post" action="indexUsuario.php">
+            <button type="submit" class="btn3 .btn-guardar" style="background-color: #F56161; border: none; color: black;"> Regresar</button>
+            </form>
+        </div>   
     </div>
-    <script src="js/script.js"></script>
 </body>
 </html>

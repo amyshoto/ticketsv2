@@ -13,6 +13,3 @@ document.addEventListener("DOMContentLoaded", function() {
     const fechaLocal = `${anio}-${mes}-${dia}`;
     document.getElementById("fechaActual").value = fechaLocal;
 });
-
-
-

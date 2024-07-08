@@ -19,6 +19,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Reporte cancelado</title>
     <link rel="stylesheet" href="../css/style_mod.css">
+    <link rel="stylesheet" href="../css/style_reportes.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600&display=swap" rel="stylesheet">
@@ -95,7 +96,8 @@
             </div>
         </div>
         <div class="item item-3 boton3">
-            <input type="submit" class="btn3" value="Guardar">
+            <a href="reporteModificar.php?folio=<?php echo $folio1; ?>" class="btn3 btn-cancelar">Regresar</a>
+            <input type="submit" class="btn3 btn-guardar" value="Guardar">
         </div>
         <?php
             } else {

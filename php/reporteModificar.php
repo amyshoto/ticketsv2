@@ -9,6 +9,19 @@
         header("Location: index.php");
         exit();
     }
+
+$correo = $_SESSION['correo'];
+$query = "SELECT * FROM usuario WHERE correo = '$correo'";
+$result = pg_query($conexion, $query);
+$row = pg_fetch_assoc($result);
+$rolSuperAdmin = $row['es_superadmin'];
+$rolAdmin = $row['es_admin'];
+
+    if ($rolSuperAdmin == 't') {
+        $redirectUrl = 'indexSuperadmin.php';
+    } elseif ($rolAdmin == 't') {
+        $redirectUrl = 'indexAdmin.php';
+    }
 ?>
 
 <!DOCTYPE html>
@@ -19,6 +32,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Reporte de ticket</title>
     <link rel="stylesheet" href="../css/style_mod.css">
+    <link rel="stylesheet" href="../css/style_reportes.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600&display=swap" rel="stylesheet">
@@ -163,14 +177,14 @@
                 </div>
                 <label for="gerencia"><p>Dirección/Unidad</p>
                     <select class="boton btn" id="gerencia" name="gerencia" required>                   
-                        <option value="AG" <?php if ($mostrar['gerencia'] == 'AG') echo 'selected'; ?>>AG</option>
-                        <option value="DMA" <?php if ($mostrar['gerencia'] == 'DMA') echo 'selected'; ?>>DMA</option>
-                        <option value="DSYS" <?php if ($mostrar['gerencia'] == 'DSYS') echo 'selected'; ?>>DSYS</option>
-                        <option value="DFI" <?php if ($mostrar['gerencia'] == 'DFI') echo 'selected'; ?>>DFI</option>
-                        <option value="DJYT" <?php if ($mostrar['gerencia'] == 'DJYT') echo 'selected'; ?>>DJYT</option>
-                        <option value="DA" <?php if ($mostrar['gerencia'] == 'DA') echo 'selected'; ?>>DA</option>    
-                        <option value="UTIC" <?php if ($mostrar['gerencia'] == 'UTIC') echo 'selected'; ?>>UTIC</option>    
-                        <option value="OIC" <?php if ($mostrar['gerencia'] == 'OIC') echo 'selected'; ?>>OIC</option>    
+                        <option value="💼AG" <?php if ($mostrar['gerencia'] == '💼AG') echo 'selected'; ?>>💼AG</option>
+                        <option value="🚴🏻‍♀️DMA" <?php if ($mostrar['gerencia'] == '🚴🏻‍♀️DMA') echo 'selected'; ?>>🚴🏻‍♀️DMA</option>
+                        <option value="🚦DSYS" <?php if ($mostrar['gerencia'] == '🚦DSYS') echo 'selected'; ?>>🚦DSYS</option>
+                        <option value="📸DFI" <?php if ($mostrar['gerencia'] == '📸DFI') echo 'selected'; ?>>📸DFI</option>
+                        <option value="💼🔎DJYT" <?php if ($mostrar['gerencia'] == '💼🔎DJYT') echo 'selected'; ?>>💼🔎DJYT</option>
+                        <option value="📄DA" <?php if ($mostrar['gerencia'] == '📄DA') echo 'selected'; ?>>📄DA</option>    
+                        <option value="🖥️UTIC" <?php if ($mostrar['gerencia'] == '🖥️UTIC') echo 'selected'; ?>>🖥️UTIC</option>    
+                        <option value="⚖️OIC" <?php if ($mostrar['gerencia'] == '⚖️OIC') echo 'selected'; ?>>⚖️OIC</option>    
                     </select>                
                 </label>
                 <label for="ubicacion"><p>Ubicación física</p>
@@ -185,8 +199,9 @@
             </div>
         </div>
         <div class="item item-3 boton3">
+            <button type="button" class="btn3 btn-cancelar" onclick="window.location.href='<?php echo $redirectUrl; ?>'">Regresar</button>
+            <input type="submit" class="btn3 btn3 btn-guardar" value="Guardar">
             <a class="btn3" id="cancelar" href="reporteCancelado.php?folio=<?php echo $folio1 ?>">Cancelar ticket</a>
-            <input type="submit" class="btn3" value="Guardar">
         </div>
         <?php
             }

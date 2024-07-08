@@ -1,0 +1,1 @@
+{"name":"amy soto","email":"tecnologias@amim.mx","password":"$2y$10$iZs1hASI6VMK2fzSrYbcuO012NEasubgxMZJu88G9O.POY3VPCGFq","unit":"\ud83d\udda5UTIC","issue":"\ud83d\udcbeMemoria USB","description":"quiero una memoria de 32","station":"1","folio":"047"}

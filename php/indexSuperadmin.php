@@ -20,6 +20,51 @@
         header("location: ../index.php");
         exit();
     }
+
+    // Número de tickets por página
+    $ticketsPorPagina = 10; 
+    
+    // Página actual, por defecto es 1 si no se pasa en la URL
+    $paginaActual = isset($_GET['page']) ? (int)$_GET['page'] : 1;
+    if ($paginaActual < 1) {
+        $paginaActual = 1;
+    }
+
+    // Estado del ticket
+    $estado = isset($_GET['estado']) ? $_GET['estado'] : '';
+
+    // Calcular el OFFSET
+    $offset = ($paginaActual - 1) * $ticketsPorPagina;
+
+    // Realizar consulta SQL para obtener los tickets con LIMIT, OFFSET y filtro de estado
+    $query = "SELECT * FROM ticket";
+    if ($estado) {
+        $query .= " WHERE estado = '$estado'";
+    }
+    $query .= " ORDER BY folio ASC LIMIT $ticketsPorPagina OFFSET $offset";
+    $result = pg_query($conexion, $query);
+
+    if (!$result) {
+        echo "Error al ejecutar la consulta.\n";
+        exit;
+    }
+
+    // Almacena los resultados en un array.
+    $tickets = pg_fetch_all($result);
+
+    // Obtener el total de tickets con el filtro de estado
+    $queryTotal = "SELECT COUNT(*) AS total FROM ticket";
+    if ($estado) {
+        $queryTotal .= " WHERE estado = '$estado'";
+    }
+    $resultTotal = pg_query($conexion, $queryTotal);
+    $totalTickets = pg_fetch_assoc($resultTotal)['total'];
+
+    // Calcular el total de páginas
+    $totalPaginas = ceil($totalTickets / $ticketsPorPagina);
+
+    // Libera el resultado de la consulta del total de tickets
+    pg_free_result($resultTotal);
 ?>
 
 <!DOCTYPE html>
@@ -31,6 +76,7 @@
     <title>Sistema de tickets</title>
     <link rel="stylesheet" href="../css/style_banner.css">
     <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/style_table.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600&display=swap" rel="stylesheet">
@@ -40,7 +86,7 @@
         <div class="img-container">
             <img src="../img/AMIM.png" alt="Logotipo de AMIM">
         </div>
-        <h1>Tickets</h1>
+        <h1>Tickets Super Admin</h1>
         <div class="login-container">
             <p class="login"><a href="logout.php">Salir</a></p>
         </div>
@@ -49,77 +95,70 @@
         <button class="btn2" onclick="location.href='encargado.php'">Editar información</button>
         <button class="btn2" onclick="location.href='reporte.php'">Añadir ticket</button>
     </div>
-    <div class="linea"></div> 
-    <div class="titulo">
-        <div class="fondo item item-1">
-            <p>Asunto</p>
-        </div>
-        <div class="fondo item item-2">
-            <p>Folio</p>
-        </div>
-        <div class="fondo item item-3">
-            <p>Encargado</p>
-        </div>
-        <div class="fondo item item-4">
-            <p>Estado</p>
-        </div>
-    </div>   
     <div class="linea"></div>
+    
+    <form method="GET" action="">
+        <label for="estado">Filtrar por estado:</label>
+        <select name="estado" id="estado">
+            <option value="">Todos</option>
+            <option value="Nuevo" <?php if ($estado == 'Nuevo') echo 'selected'; ?>>Nuevo</option>
+            <option value="En proceso" <?php if ($estado == 'En proceso') echo 'selected'; ?>>En Proceso</option>
+            <option value="Terminado" <?php if ($estado == 'Terminado') echo 'selected'; ?>>Terminado</option>
+            <option value="Cancelado" <?php if ($estado == 'Cancelado') echo 'selected'; ?>>Cancelado</option>
+        </select>
+        <button class="boton1" type="submit">Filtrar</button>
+    </form>
 
-
-    <?php
-        // Realiza la consulta SQL para obtener los datos de los tickets y ordenarlos por folio ascendente.
-        $query = "SELECT * FROM ticket ORDER BY folio ASC";
-        $result = pg_query($conexion, $query);
-
-        if (!$result) {
-            echo "Error al ejecutar la consulta.\n";
-            exit;
-        }
-
-        // Almacena los resultados en un array.
-        $tickets = pg_fetch_all($result);
-
-        // Libera el resultado y cierra la conexión.
-        pg_free_result($result);
-        pg_close($conexion);
-
-        // Si hay tickets, muestra la lista.
-        if ($tickets) {
-            // Itera sobre los tickets y muéstralos en la lista.
-            foreach ($tickets as $ticket) {
-                ?>
-                <div class="lista">
-                    <div class="item item-1">
-                        <p><a href="reporteModificar.php?folio=<?php echo $ticket['folio']; ?>">
-                            <?php echo $ticket['asunto']; ?>
-                        </a></p>
-                    <div class="linea2"></div>
-                    </div>
-                    <div class="item item-2">
-                        <p><?php echo $ticket['folio']; ?></p>
-                        <div class="linea2"></div>
-                    </div>
-                    <div class="item item-3">
-                        <p><?php echo $ticket['encargado']; ?></p>
-                        <div class="linea2"></div>
-                    </div>
-                    <div class="item item-4">
-                        <p><?php echo $ticket['estado']; ?></p>
-                        <div class="linea2"></div>
-                    </div>
-                </div>
-                <?php 
-            }
-        } else {
-            ?>
-            <div class="lista">
-                <div class="item item-1">
-                    <p><?php echo "No hay tickets disponibles."; ?></p>
-                </div>
-            </div>
+    <table>
+        <thead>
+            <tr>
+                <th>Asunto</th>
+                <th>Folio</th>
+                <th>Encargado</th>
+                <th>Estado</th>
+                <th>Nombre</th>
+                <th>Gerencia</th>
+                <th>Ubicación</th>
+            </tr>
+        </thead>
+        <tbody>
             <?php
-        }
-    ?>
+                // Si hay tickets, muestra la lista.
+                if ($tickets) {
+                    // Itera sobre los tickets y muéstralos en la lista.
+                    foreach ($tickets as $ticket) {
+                        echo "<tr>";
+                        echo "<td class='item'><a href='reporteModificar.php?folio=" . $ticket['folio'] . "'>" . $ticket['asunto'] . "</a></td>";
+                        echo "<td>" . $ticket['folio'] . "</td>";
+                        echo "<td>" . $ticket['encargado'] . "</td>";
+                        echo "<td>" . $ticket['estado'] . "</td>";
+                        echo "<td>" . $ticket['nombre'] . "</td>";
+                        echo "<td>" . $ticket['gerencia'] . "</td>";
+                        echo "<td>" . $ticket['ubicacion'] . "</td>";
+                        echo "</tr>";
+                    }
+                } else {
+                    echo "<tr><td colspan='7'>No hay tickets disponibles.</td></tr>";
+                }
+            ?>
+        </tbody>
+    </table>
+
+    <link rel="stylesheet" href="../css/pagination.css">
+    <div class="pagination">
+        <?php if ($paginaActual > 1): ?>
+        <a href="?page=<?php echo $paginaActual - 1; ?>&estado=<?php echo $estado; ?>" class="prev">&laquo;</a>
+        <?php endif; ?>
+
+        <?php for ($i = 1; $i <= $totalPaginas; $i++): ?>
+        <a href="?page=<?php echo $i; ?>&estado=<?php echo $estado; ?>" <?php if ($i == $paginaActual) echo 'class="active"'; ?>><?php echo $i; ?></a>
+        <?php endfor; ?>
+
+        <?php if ($paginaActual < $totalPaginas): ?>
+        <a href="?page=<?php echo $paginaActual + 1; ?>&estado=<?php echo $estado; ?>" class="next">&raquo;</a>
+        <?php endif; ?>
+    </div>
+    
+    <div class="linea"></div>
 </body>
 </html>
