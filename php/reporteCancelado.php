@@ -41,6 +41,12 @@
         $ejecuta = pg_query($conexion, $query);
 
         if ($mostrar=pg_fetch_array($ejecuta)) {
+
+            $id_encargado = $mostrar['idencargado'];
+            $query_encargado = "SELECT nombre FROM usuario WHERE id = '$id_encargado'";
+            $resultado_encargado = pg_query($conexion, $query_encargado);
+            $encargado = pg_fetch_array($resultado_encargado);
+            $nombre_encargado = $encargado['nombre'];
     ?>
         <div class="item item-1">
             <div class="info">
@@ -56,7 +62,7 @@
                     <input class="boton btn" id="nombre" type="text" name="nombre" value="<?php echo $mostrar['nombre']; ?>" readonly>                 
                 </label>
                 <label for="encargado"><p>Encargado</p>
-                    <input class="boton btn" id="encargado" name="encargado" value="<?php echo $mostrar['encargado']; ?>" readonly>
+                    <input class="boton btn" id="encargado" name="encargado" value="<?php echo $nombre_encargado; ?>" readonly>
                 </label>
                 <label for="desProblema"><p id="problema">Descripción del problema</p>
                     <textarea name="problema" id="desProblema" class="boton btn" rows="4" readonly><?php echo $mostrar['problema']; ?></textarea>  

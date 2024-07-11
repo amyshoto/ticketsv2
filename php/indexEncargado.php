@@ -12,10 +12,11 @@
     $query = "SELECT * FROM usuario WHERE correo = '$correo'";
     $result = pg_query($conexion, $query);
     $row = pg_fetch_assoc($result);
-    $rolAdmin = $row['es_admin'];
+    $rolEncargado = $row['es_encargado'];
+    $idEncargado = $row['id'];
 
     // Verificar si el usuario tiene el rol adecuado para esta página
-    if ($rolAdmin != 't' ) {
+    if ($rolEncargado != 't' ) {
         // Si el usuario no tiene el rol de superadministrador, redirigirlo
         header("location: ../index.php");
         exit();
@@ -38,13 +39,16 @@
     $offset = ($paginaActual - 1) * $ticketsPorPagina;
 
     // Realizar consulta SQL para obtener los tickets con LIMIT, OFFSET y filtro de estado
-    $query = "SELECT t.*, u.nombre AS nombre_encargado 
-              FROM ticket t 
-              LEFT JOIN usuario u ON t.idencargado = u.id";
-    if ($estado) {
-        $query .= " WHERE t.estado = '$estado'";
-    }
-    $query .= " ORDER BY t.folio ASC LIMIT $ticketsPorPagina OFFSET $offset";
+    $query = "
+    SELECT t.*, u.nombre AS nombre_encargado
+    FROM ticket t
+    LEFT JOIN usuario u ON t.idencargado = u.id
+    WHERE t.idencargado = '$idEncargado'";
+if ($estado) {
+    $query .= " AND t.estado = '$estado'";
+}
+
+    $query .= " ORDER BY folio ASC LIMIT $ticketsPorPagina OFFSET $offset";
     $result = pg_query($conexion, $query);
 
     if (!$result) {
@@ -56,9 +60,9 @@
     $tickets = pg_fetch_all($result);
 
     // Obtener el total de tickets con el filtro de estado
-    $queryTotal = "SELECT COUNT(*) AS total FROM ticket";
+    $queryTotal = "SELECT COUNT(*) AS total FROM ticket WHERE idencargado = '$idEncargado'";
     if ($estado) {
-        $queryTotal .= " WHERE estado = '$estado'";
+        $queryTotal .= " AND estado = '$estado'";
     }
     $resultTotal = pg_query($conexion, $queryTotal);
     $totalTickets = pg_fetch_assoc($resultTotal)['total'];
@@ -91,7 +95,7 @@
         <div class="img-container">
             <img src="../img/AMIM.png" alt="Logotipo de AMIM">
         </div>
-        <h1>Tickets Admin</h1>
+        <h1>Tickets Encargado</h1>
         <div class="login-container">
             <p class="login"><a href="logout.php">Salir</a></p>
         </div>

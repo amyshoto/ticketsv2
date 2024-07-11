@@ -37,10 +37,13 @@
     $offset = ($paginaActual - 1) * $ticketsPorPagina;
 
     // Realizar consulta SQL para obtener los tickets con LIMIT, OFFSET y filtro de estado
-    $query = "SELECT * FROM ticket";
-    if ($estado) {
-        $query .= " WHERE estado = '$estado'";
-    }
+    $query = "
+    SELECT t.*, u.nombre AS nombre_encargado
+    FROM ticket t
+    LEFT JOIN usuario u ON t.idencargado = u.id";
+if ($estado) {
+    $query .= " WHERE t.estado = '$estado'";
+}
     $query .= " ORDER BY folio ASC LIMIT $ticketsPorPagina OFFSET $offset";
     $result = pg_query($conexion, $query);
 
@@ -130,7 +133,7 @@
                         echo "<tr>";
                         echo "<td class='item'><a href='reporteModificar.php?folio=" . $ticket['folio'] . "'>" . $ticket['asunto'] . "</a></td>";
                         echo "<td>" . $ticket['folio'] . "</td>";
-                        echo "<td>" . $ticket['encargado'] . "</td>";
+                        echo "<td>" . $ticket['nombre_encargado'] . "</td>";
                         echo "<td>" . $ticket['estado'] . "</td>";
                         echo "<td>" . $ticket['nombre'] . "</td>";
                         echo "<td>" . $ticket['gerencia'] . "</td>";

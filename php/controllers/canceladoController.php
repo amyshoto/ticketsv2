@@ -17,6 +17,9 @@
     } elseif ($_SESSION['es_superadmin'] === 't') {
         header("location: ../indexSuperadmin.php");
         exit();
+    } else {
+        header("location: ../indexEncargado.php");
+        exit();
     }
                 
 ?>

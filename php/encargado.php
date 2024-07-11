@@ -13,36 +13,44 @@ if (!isset($_SESSION['correo'])) {
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (isset($_POST["add_submit"])) {
-        $nuevo = $_POST["nuevo"];
+        $nuevo_encargado = $_POST["nuevo_encargado"];
         
-        // Verificar si el encargado ya existe
-        $query_verificar = "SELECT * FROM encargado WHERE nombreencargado = '$nuevo'";
+        // Verificar si el correo del encargado ya existe en la tabla usuario
+        $query_verificar = "SELECT id FROM usuario WHERE correo = '$nuevo_encargado'";
         $resultado_verificar = pg_query($conexion, $query_verificar);
         
         if (pg_num_rows($resultado_verificar) > 0) {
-            $msg_nuevo = "Nombre de encargado existente";
-        } else {
-            // Insertar el nuevo encargado si no existe
-            $query = "INSERT INTO encargado (nombreencargado) VALUES ('$nuevo')";
-            $ejecuta = pg_query($conexion, $query);
+            // Actualizar el usuario para hacerlo encargado
+            $query_encargado = "UPDATE usuario SET es_encargado = true WHERE correo = '$nuevo_encargado'";
+            $ejecuta_encargado = pg_query($conexion, $query_encargado);
 
-            if ($ejecuta) {
+            if ($ejecuta_encargado) {
                 $msg_nuevo = "Se agregó un nuevo encargado";
             } else {
                 $msg_nuevo = "Error al añadir encargado";
             }
+        } else {
+            $msg_nuevo = "El correo ingresado no está registrado";
         }
     } elseif (isset($_POST["delete_submit"])) {
-        $eliminar = $_POST["eliminar"];
+        $eliminar_encargado = $_POST["eliminar_encargado"];
 
-        // Actualiza la columna eliminado en lugar de eliminar físicamente
-        $query_actualizar = "UPDATE encargado SET eliminado = true WHERE nombreencargado = '$eliminar'";
-        $ejecuta_actualizar = pg_query($conexion, $query_actualizar);
+        // Verificar si el correo existe y es encargado
+        $query_verificar = "SELECT id FROM usuario WHERE correo = '$eliminar_encargado' AND es_encargado = true";
+        $resultado_verificar = pg_query($conexion, $query_verificar);
 
-        if ($ejecuta_actualizar) {
-            $msg_eliminar = "Se eliminó un encargado";
+        if (pg_num_rows($resultado_verificar) > 0) {
+            // Actualiza la columna es_encargado para marcar como no encargado
+            $query_actualizar = "UPDATE usuario SET es_encargado = false WHERE correo = '$eliminar_encargado'";
+            $ejecuta_actualizar = pg_query($conexion, $query_actualizar);
+
+            if ($ejecuta_actualizar) {
+                $msg_eliminar = "Se eliminó un encargado";
+            } else {
+                $msg_eliminar = "Error al eliminar encargado";
+            }
         } else {
-            $msg_eliminar = "Error al marcar como eliminado el encargado";
+            $msg_eliminar = "El correo ingresado no es un encargado registrado";
         }
     } elseif (isset($_POST["admin_submit"])) {
         $admin = $_POST["admin"];
@@ -109,58 +117,55 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     </div>
 
     <div class="container">
-    <div class="section">
-        <div class="titulo">
-            <label><b>Información Encargado</b></label>
-        </div>
-        <form class="form-section" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
-            <label for="nuevo">
-                <p>Nuevo encargado</p>
-                <input class="texto" type="text" id="nuevo" name="nuevo">
-            </label>
-            <input type="submit" class="btn" name="add_submit" value="Añadir">
-        </form>
+        <div class="section">
+            <div class="titulo">
+                <label><b>Información Encargado</b></label>
+            </div>
+            <form class="form-section" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
+                <label for="nuevo_encargado">
+                    <p>Nuevo encargado</p>
+                    <input class="texto" type="text" id="nuevo_encargado" name="nuevo_encargado">
+                </label>
+                <input type="submit" class="btn" name="add_submit" value="Añadir">
+            </form>
 
-        <form class="form-section" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
-            <label for="eliminar">
-                <p>Eliminar encargado</p>
-                <input class="texto" type="text" id="eliminar" name="eliminar">
-            </label>
-            <input type="submit" class="btn" name="delete_submit" value="Eliminar">
-        </form>
-    </div>
-
-    <!--<div class="separator"></div>
-  Línea separadora -->
-    
-    <div class="section">
-        <div class="titulo">
-            <label><b>Información Administrador</b></label>
-        </div>
-        <form class="form-section" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
-            <label for="admin">
-                <p>Nuevo administrador</p>
-                <input class="texto" type="text" id="admin" name="admin">
-            </label>
-            <input type="submit" class="btn" name="admin_submit" value="Añadir">
-        </form>
-
-        <form class="form-section" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
-            <label for="eliminar_admin">
-                <p>Eliminar administrador</p>
-                <input class="texto" type="text" id="eliminar_admin" name="eliminar_admin">
-            </label>
-            <input type="submit" class="btn" name="delete_admin_submit" value="Eliminar">
-        </form>
-    </div>
-</div>
-
-
-<div class="item item-3 boton3">
-            <form method="post" action="indexSuperadmin.php">
-            <button type="submit" class="btn3 .btn-guardar" style="background-color: #F56161; border: none; color: black;"> Regresar</button>
+            <form class="form-section" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
+                <label for="eliminar_encargado">
+                    <p>Eliminar encargado</p>
+                    <input class="texto" type="text" id="eliminar_encargado" name="eliminar_encargado">
+                </label>
+                <input type="submit" class="btn" name="delete_submit" value="Eliminar">
             </form>
         </div>
+        
+        <div class="section">
+            <div class="titulo">
+                <label><b>Información Administrador</b></label>
+            </div>
+            <form class="form-section" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
+                <label for="admin">
+                    <p>Nuevo administrador</p>
+                    <input class="texto" type="text" id="admin" name="admin">
+                </label>
+                <input type="submit" class="btn" name="admin_submit" value="Añadir">
+            </form>
+
+            <form class="form-section" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
+                <label for="eliminar_admin">
+                    <p>Eliminar administrador</p>
+                    <input class="texto" type="text" id="eliminar_admin" name="eliminar_admin">
+                </label>
+                <input type="submit" class="btn" name="delete_admin_submit" value="Eliminar">
+            </form>
+        </div>
+    </div>
+
+    <div class="item item-3 boton3">
+        <form method="post" action="indexSuperadmin.php">
+            <button type="submit" class="btn3 .btn-guardar" style="background-color: #F56161; border: none; color: black;"> Regresar</button>
+        </form>
+    </div>
+
     <script>
         <?php if ($msg_nuevo !== "") { ?>
             alert('<?php echo $msg_nuevo; ?>');

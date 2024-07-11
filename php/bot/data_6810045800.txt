@@ -1,1 +1,1 @@
-{"name":"karla","email":"karla@gmail.com","password":"$2y$10$d6oHk0LzDuqA1Dq1Z5Vw9O3GT0\/I9koMo9yDHsxlyiT4QIJH7d6sO","unit":"\ud83d\udda5\ufe0fUTIC","issue":"\ud83d\udcbeMemoria USB","description":"otro","station":"otro","folio":"051"}
+{"name":"Si","email":"Elsapato@gmail.com","password":"$2y$10$BUzWMjb.IzVm4cq2YCHW7OJoLsYd0o5GCApvrTr8JYIpyzs7kVMBq","unit":"\u2696\ufe0fOIC","issue":"\ud83d\udda8\ufe0fImpresora","description":"MMMMM","station":"JJJJJJ","folio":"018"}

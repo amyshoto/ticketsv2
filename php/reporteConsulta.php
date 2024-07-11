@@ -29,10 +29,13 @@
             $folio = isset($_GET['folio']) ? $_GET['folio'] : '';
 
             // Realizar la consulta SQL para obtener los datos del ticket con el folio proporcionado
-            $query = "SELECT * FROM Ticket WHERE Folio = '$folio'";
+            $query = "SELECT t.*, u.nombre AS nombre_encargado 
+                      FROM Ticket t 
+                      LEFT JOIN usuario u ON t.idencargado = u.id 
+                      WHERE t.folio = '$folio'";
             $ejecuta = pg_query($conexion, $query);
 
-            if ($mostrar=pg_fetch_array($ejecuta)) {
+            if ($mostrar = pg_fetch_array($ejecuta)) {
         ?>
         <div class="item item-1">
             <div class="info">
@@ -45,7 +48,7 @@
                     <button class="boton btn" id="asunto"><?php echo $mostrar['asunto']; ?></button>          
                 </label>
                 <label for="encargado"><p>Encargado</p>
-                    <button class="boton btn" id="encargado"><?php echo $mostrar['encargado']; ?></button> 
+                    <button class="boton btn" id="encargado"><?php echo $mostrar['nombre_encargado']; ?></button> 
                 </label>
                 <label for="desProblema"><p id="problema">Descripción del problema</p>
                     <textarea name="problema" id="desProblema" class="boton btn" rows="4" readonly><?php echo $mostrar['problema']; ?></textarea>  

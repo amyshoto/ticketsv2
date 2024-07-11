@@ -44,7 +44,10 @@ if (!isset($_SESSION['correo'])) {
     } elseif ($_SESSION['es_superadmin'] === 't') {
         header("location: ../indexSuperadmin.php");
         exit();
-    } else {
+    } elseif ($_SESSION['es_encargado'] === 't') {
+        header("location: ../indexEncargado.php");
+        exit();
+    }else {
         header("location: ../indexUsuario.php");
         exit();
     }  

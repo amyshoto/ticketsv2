@@ -24,6 +24,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $_SESSION['correo'] = $row['correo'];
             $_SESSION['es_admin'] = $row['es_admin'];
             $_SESSION['es_superadmin'] = $row['es_superadmin'];
+            $_SESSION['es_encargado'] = $row['es_encargado'];
 
             if ($_SESSION['es_admin'] === 't') {
                 header("location: php/indexAdmin.php");
@@ -31,10 +32,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             } elseif ($_SESSION['es_superadmin'] === 't') {
                 header("location: php/indexSuperadmin.php");
                 exit();
+            } elseif ($_SESSION['es_encargado'] === 't') {
+                header("location: php/indexEncargado.php");
+                exit();
             } else {
                 header("location: php/indexUsuario.php");
                 exit();
-            }
+            } 
         } else {
             $error_message = "Usuario o contraseña incorrectos";
         }

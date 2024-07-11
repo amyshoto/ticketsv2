@@ -2,11 +2,11 @@
 $token = '7347133377:AAFpFMyOazrZJEz0mBsfaj_cKaMQZx7qmbE'; 
 $apiUrl = "https://api.telegram.org/bot$token/";
 
-$host = '10.25.96.155';
+$host = 'localhost';
 $port = '5432';
-$dbname = 'dbtickets';
+$dbname = 'ticket';
 $user = 'postgres';
-$pass = '';
+$pass = 'passwors';
 
 $dsn = "pgsql:host=$host;port=$port;dbname=$dbname;user=$user;password=$pass";
 
@@ -192,19 +192,20 @@ function handleUserResponse($text, $chat_id, $state, $pdo, $callback_query) {
                 $userId = $stmt->fetchColumn();
             }
 
-            $stmt = $pdo->prepare("INSERT INTO Ticket (Folio, Asunto, Nombre, Encargado, Problema, fechaEntrada, Estado, Gerencia, Ubicacion, idusuario) 
-            VALUES (:Folio, :Asunto, :Nombre, '-', :Problema, CURRENT_DATE, 'Nuevo', :Gerencia, :Ubicacion, :idusuario)");
-            $stmt->bindParam(':Folio', $data['folio']);
-            $stmt->bindParam(':Asunto', $data['issue']);
-            $stmt->bindParam(':Nombre', $nombre);
-            $problema = truncateString($data['description'], 80);
-            $stmt->bindParam(':Problema', $problema);
-            $gerencia = truncateString($data['unit'], 50);
-            $stmt->bindParam(':Gerencia', $gerencia);
-            $ubicacion = truncateString($data['station'], 50);
-            $stmt->bindParam(':Ubicacion', $ubicacion);
-            $stmt->bindParam(':idusuario', $userId);
-            $stmt->execute();
+            // Este es el bloque de código donde intentas insertar datos en la tabla `ticket`.
+            $stmt = $pdo->prepare("INSERT INTO ticket (folio, asunto, nombre, problema, fechaentrada, estado, gerencia, ubicacion, idusuario, idencargado, solucioncancelacion, fechasolucion) 
+            VALUES (:Folio, :Asunto, :Nombre, :Problema, CURRENT_DATE, 'Nuevo', :Gerencia, :Ubicacion, :idusuario, NULL, NULL, NULL)");
+             $stmt->bindParam(':Folio', $data['folio']);
+             $stmt->bindParam(':Asunto', $data['issue']);
+             $stmt->bindParam(':Nombre', $nombre);
+             $problema = truncateString($data['description'], 80);
+             $stmt->bindParam(':Problema', $problema);
+             $gerencia = truncateString($data['unit'], 50);
+             $stmt->bindParam(':Gerencia', $gerencia);
+             $ubicacion = truncateString($data['station'], 50);
+             $stmt->bindParam(':Ubicacion', $ubicacion);
+             $stmt->bindParam(':idusuario', $userId);
+             $stmt->execute();
 
             sendMessage($chat_id, "✅ Tu información ha sido guardada exitosamente. 📌 ¿Deseas registrar otro reporte? Usa el comando /start para comenzar de nuevo.");
         } catch (PDOException $e) {

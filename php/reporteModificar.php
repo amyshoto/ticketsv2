@@ -10,18 +10,21 @@
         exit();
     }
 
-$correo = $_SESSION['correo'];
-$query = "SELECT * FROM usuario WHERE correo = '$correo'";
-$result = pg_query($conexion, $query);
-$row = pg_fetch_assoc($result);
-$rolSuperAdmin = $row['es_superadmin'];
-$rolAdmin = $row['es_admin'];
+    $correo = $_SESSION['correo'];
+    $query = "SELECT * FROM usuario WHERE correo = '$correo'";
+    $result = pg_query($conexion, $query);
+    $row = pg_fetch_assoc($result);
+    $rolSuperAdmin = $row['es_superadmin'];
+    $rolAdmin = $row['es_admin'];
+    $rolEncargado = $row['es_encargado'];
 
     if ($rolSuperAdmin == 't') {
         $redirectUrl = 'indexSuperadmin.php';
     } elseif ($rolAdmin == 't') {
         $redirectUrl = 'indexAdmin.php';
-    }
+    } else {
+        $redirectUrl = 'indexEncargado.php';
+    }    
 ?>
 
 <!DOCTYPE html>
@@ -46,14 +49,14 @@ $rolAdmin = $row['es_admin'];
     </div>
     <form id="form_reporte" action="controllers/modificarController.php" method="post" class="container" onload="limpiarFormulario()">
     <?php 
-        // Recibir el parámetro 'folio' de la URLtype="hidden"
+        // Recibir el parámetro 'folio' de la URL
         $folio1 = isset($_GET['folio']) ? $_GET['folio'] : '';
 
         // Realizar la consulta SQL para obtener los datos del ticket con el folio proporcionado
         $query = "SELECT * FROM Ticket WHERE Folio = '$folio1'";
         $ejecuta = pg_query($conexion, $query);
 
-        if ($mostrar=pg_fetch_array($ejecuta)) {
+        if ($mostrar = pg_fetch_array($ejecuta)) {
             if ($mostrar['estado'] == 'Cancelado') {
             ?>
             <div class="item item-1">
@@ -70,7 +73,7 @@ $rolAdmin = $row['es_admin'];
                         <input class="boton btn" id="nombre" type="text" name="nombre" value="<?php echo $mostrar['nombre']; ?>" readonly>                 
                     </label>
                     <label for="encargado"><p>Encargado</p>
-                        <input class="boton btn" id="encargado" name="encargado" value="<?php echo $mostrar['encargado']; ?>" readonly>
+                        <input class="boton btn" id="encargado" name="idencargado" value="<?php echo $mostrar['idencargado']; ?>" readonly>
                     </label>
                     <label for="desProblema"><p id="problema">Descripción del problema</p>
                         <textarea name="problema" id="desProblema" class="boton btn" rows="4" readonly><?php echo $mostrar['problema']; ?></textarea>  
@@ -129,28 +132,25 @@ $rolAdmin = $row['es_admin'];
                 </label>
 
                 <label for="encargado"><p>Encargado</p>
-                    <select class="boton btn" id="encargado" name="encargado" required>
-                    <?php
-                        // Ejecutar la consulta para obtener la lista de encargados desde la base de datos
-                        $query2 = "SELECT * FROM encargado WHERE eliminado = false";
-                        $ejecuta2 = pg_query($conexion, $query2);
-
-                        // Verificar si la consulta se ejecutó correctamente
-                        if ($ejecuta2) {
-                            // Iterar sobre los resultados y construir las opciones del select
-                            while ($encargado = pg_fetch_assoc($ejecuta2)) {
-                                $nombreEncargado = $encargado['nombreencargado'];
-                                echo '<option value="' . $nombreEncargado . '"';
-                                if ($mostrar['encargado'] == $nombreEncargado) {
-                                    echo ' selected';
+                        <select class="boton btn" id="encargado" name="encargado" required>
+                            <?php
+                                $query2 = "SELECT id, nombre FROM usuario WHERE es_encargado = true";
+                                $ejecuta2 = pg_query($conexion, $query2);
+                                if ($ejecuta2) {
+                                    while ($encargado = pg_fetch_assoc($ejecuta2)) {
+                                        $idEncargado = $encargado['id'];
+                                        $nombreEncargado = $encargado['nombre'];
+                                        echo '<option value="' . $idEncargado . '"';
+                                        if ($mostrar['idencargado'] == $idEncargado) {
+                                            echo ' selected';
+                                        }
+                                        echo '>' . $nombreEncargado . '</option>';
+                                    }
+                                } else {
+                                    echo '<option value="">Error al obtener encargados</option>';
                                 }
-                                echo '>' . $nombreEncargado . '</option>';
-                            }
-                        } else {
-                            echo '<option value="">Error al obtener encargados</option>';
-                        }
-                    ?>
-                    </select>
+    ?>
+    </select>
                 </label>
 
                 <label for="desProblema"><p id="problema">Descripción del problema</p>

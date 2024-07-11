@@ -32,21 +32,20 @@
     $offset = ($paginaActual - 1) * $ticketsPorPagina;
 
     // Realizar consulta SQL para obtener los tickets del usuario actual con LIMIT, OFFSET y filtro de estado
-    $query = "SELECT * FROM ticket WHERE idusuario = '$idUsuario'";
-    if ($estado) {
-        $query .= " AND estado = '$estado'";
-    }
-    $query .= " ORDER BY folio ASC LIMIT $ticketsPorPagina OFFSET $offset";
-    $result = pg_query($conexion, $query);
+    $query = "SELECT t.*, u.nombre AS nombre_encargado 
+          FROM ticket t 
+          LEFT JOIN usuario u ON t.idencargado = u.id 
+          WHERE t.idusuario = '$idUsuario'";
+if ($estado) {
+    $query .= " AND t.estado = '$estado'";
+}
+$query .= " ORDER BY t.folio ASC LIMIT $ticketsPorPagina OFFSET $offset";
+$result = pg_query($conexion, $query);
 
-    if (!$result) {
-        echo "Error al ejecutar la consulta.\n";
-        exit;
-    }
-
-    // Realizar consulta SQL para obtener los tickets del usuario actual
-    //$query = "SELECT * FROM ticket WHERE idusuario = '$idUsuario' ORDER BY folio ASC";
-    //$result = pg_query($conexion, $query);
+if (!$result) {
+    echo "Error al ejecutar la consulta.\n";
+    exit;
+}
 
     // Almacena los resultados en un array.
     $tickets = pg_fetch_all($result);
@@ -135,7 +134,7 @@
                     echo "<tr>";
                     echo "<td class='item'><a href='reporteConsulta.php?folio=" . $ticket['folio'] . "'>" . $ticket['asunto'] . "</a></td>";
                     echo "<td>" . $ticket['folio'] . "</td>";
-                    echo "<td>" . $ticket['encargado'] . "</td>";
+                    echo "<td>" . $ticket['nombre_encargado'] . "</td>";
                     echo "<td>" . $ticket['estado'] . "</td>";
                     echo "<td>" . $ticket['gerencia'] . "</td>";
                     echo "<td>" . $ticket['ubicacion'] . "</td>";

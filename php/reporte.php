@@ -14,7 +14,8 @@ $result = pg_query($conexion, $query);
 $row = pg_fetch_assoc($result);
 $nombreUsuario = $row['nombre'];
 $rolSuperAdmin = $row['es_superadmin'];
-$rolAdmin = $row['es_admin']; 
+$rolAdmin = $row['es_admin'];
+$rolEncargado = $row['es_encargado']; 
 
 // Obtener el siguiente folio basado en el máximo actual en la tabla de tickets
 $query = "SELECT MAX(Folio) as max_folio FROM Ticket";
@@ -29,7 +30,9 @@ if ($rolSuperAdmin == 't') {
     $redirectUrl = 'indexSuperadmin.php';
 } elseif ($rolAdmin == 't') {
     $redirectUrl = 'indexAdmin.php';
-} else {
+}  elseif ($rolEncargado == 't') {
+    $redirectUrl = 'indexEncargado.php';
+}  else {
     $redirectUrl = 'indexUsuario.php';
 }
 ?>
